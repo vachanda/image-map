@@ -1,10 +1,20 @@
 <?php
 
-namespace OmekaModuleStarterKit;
+namespace ImageMap;
 
+use Doctrine\Common\Collections\Criteria;
+use Omeka\Entity\Item;
+use Omeka\Entity\Media;
+use Omeka\Entity\Property;
+use Omeka\Entity\Resource;
+use Omeka\Entity\Value;
+use Omeka\File\Store\Local;
 use Omeka\Module\AbstractModule;
-use Zend\Config\Factory;
+use Zend\EventManager\Event;
+use Zend\EventManager\SharedEventManagerInterface;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Renderer\PhpRenderer;
 
 class Module extends AbstractModule
 {
@@ -18,17 +28,28 @@ class Module extends AbstractModule
         }
     }
 
-    public function getConfig()
-    {
-        if ($this->config) {
-            return $this->config;
-        }
-        // Load our composer dependencies.
-        $this->loadVendor();
-        // Load our configuration.
-        $this->config = Factory::fromFiles(
-            glob(__DIR__ . '/config/*.config.*')
+    public function getConfig() {
+        return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function install(ServiceLocatorInterface $serviceLocator) {
+
+    }
+
+    public function uninstall(ServiceLocatorInterface $serviceLocator) {
+
+    }
+
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager) {
+        // Add the map form to the item add and edit pages.
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Item',
+            'view.edit.form.after',
+            [$this, 'handleViewFormAfter']
         );
-        return $this->config;
+    }
+
+    public function handleViewFormAfter(Event $event) {
+        echo $event->getTarget()->partial('imagemap/index/form');
     }
 }
