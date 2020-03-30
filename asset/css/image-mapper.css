@@ -1,0 +1,62 @@
+.image-mapper {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.image-mapper img {
+   max-width: 100%;
+   max-height: 100%;
+   border: 0;
+   pointer-events: fill;
+}
+
+.image-mapper svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    pointer-events: none;
+}
+
+.image-mapper svg rect {
+    fill: rgb(102, 102, 102);
+    stroke: rgb(51, 51, 51);
+    stroke-width: 1;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.image-mapper-data table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    display: table;
+    border-color: grey;
+    table-layout: auto;
+}
+
+.image-mapped-data th {
+    height: 40px;
+}
+
+.image-mapper-submit {
+    position: relative;
+}
+
+.image-mapper-submit span > .mapper-submit {
+    padding: 5px;
+    display: inline;
+    border-radius: 2px;
+    border: 0;
+    background: red;
+    color: white;
+    width: auto;
+    height: auto;
+    box-sizing: content-box;
+}

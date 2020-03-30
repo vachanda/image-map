@@ -1,11 +1,47 @@
 <?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/image-mapper.css', 'ImageMap'));
+$this->headScript()->appendFile($this->assetUrl('js/image-mapper.js', 'ImageMap'));
+$this->headScript()->appendFile("https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js");
+
 $mapping = null;
-$markers = [];
+$imageMaps = [];
 $itemMedia = [];
 if (isset($item)) {
+	$imageMaps = $this->api()
+	    ->search('image_map', ['item_id' => $item->id()])->getContent();
     $itemMedia = $item->media();
 }
 ?>
 
-<div id="image-map" class="section">
+<div id="image-map" class="section row">
+	<div id="image-map-container" class="col-md-12">
+		<div class="image-mapper" id="image-map-display">
+			<img class="image-mapper-img" src="<?php echo $this->escapeHtml($itemMedia[0]->originalUrl()); ?>" usemap="#image-mapper-map">
+			<!-- <map name="image-mapper-map">
+				<area alt="" title="" href="/ships/437" shape="rect" coords="601, 703, 627, 705" target="_blank" value="1040"class="{fillColor:'00ff00'}"/>
+			</map> -->
+			<svg class="image-mapper-svg" id="image-mapper-svg" style="width: 100%;"></svg>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 image-mapper-data">
+			<h4>Current Selected Grid Points</h4>
+			<table class="table" id="image-mapper-table">
+				<thead>
+					<tr>
+						<th>Coordinates</th>
+						<th>Alt Text</th>
+						<th>Link</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class ="col-md-12 image-mapper-submit">
+			<span>
+				<input type="button" class="mapper-submit" value="Submit" onclick="return submitCoords(event);" />
+			</span>
+		</div>
+	</div>
 </div>
