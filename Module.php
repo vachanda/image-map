@@ -3,7 +3,7 @@
 namespace ImageMap;
 
 use Doctrine\ORM\Events;
-use Mapping\Db\Event\Listener\DetachOrphanMappings;
+use ImageMap\Db\Event\Listener\DetachOrphanMappings;
 use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
 use Zend\EventManager\Event;
@@ -56,8 +56,8 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $serviceLocator) {
         $conn = $serviceLocator->get('Omeka\Connection');
 
-        $conn->exec('CREATE TABLE image_map (id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, cords VARCHAR(255) NOT NULL, target VARCHAR(255) NOT NULL) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;');
-        $conn->exec('ALTER TABLE image_map ADD CONSTRAINT FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;');
+        $conn->exec('CREATE TABLE image_map (id INT AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, coordinates VARCHAR(255) NOT NULL, target VARCHAR(255) NOT NULL, alt VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_CB477AE8126F525E (item_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;');
+        $conn->exec('ALTER TABLE image_map ADD CONSTRAINT FK_CB477AE8126F525E FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;');
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator) {

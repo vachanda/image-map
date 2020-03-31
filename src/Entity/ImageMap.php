@@ -26,12 +26,17 @@ class ImageMap extends AbstractEntity {
     /**
      * @Column(type="string", nullable=false)
      */
-    protected $cords;
+    protected $coordinates;
 
     /**
      * @Column(type="string", nullable=false)
      */
     protected $target;
+
+    /**
+     * @Column(type="string", nullable=false)
+     */
+    protected $alt;
 
 
     public function getId() {
@@ -46,12 +51,12 @@ class ImageMap extends AbstractEntity {
         return $this->item;
     }
 
-    public function setCords($cords) {
-        $this->cords = $cords;
+    public function setCoordinates($coordinates) {
+        $this->coordinates = $coordinates;
     }
 
-    public function getCords() {
-        return $this->cords;
+    public function getCoordinates() {
+        return $this->coordinates;
     }
 
     public function setTarget($target) {
@@ -60,5 +65,13 @@ class ImageMap extends AbstractEntity {
 
     public function getTarget() {
         return $this->target;
+    }
+
+    public function setAlt($alt) {
+        $this->alt = $alt;
+    }
+
+    public function getAlt() {
+        return $this->alt;
     }
 }

@@ -30,11 +30,16 @@ class ImageMapAdapter extends AbstractEntityAdapter {
             $entity->setItem($item);
         }
 
-        if ($this->shouldHydrate($request, 'o-module-image-map:cords')) {
-            $entity->setCords($request->getValue('o-module-image-map:cords'));
+        if ($this->shouldHydrate($request, 'o-module-image-map:coordinates')) {
+            $entity->setCords($request->getValue('o-module-image-map:coordinates'));
         }
+
         if ($this->shouldHydrate($request, 'o-module-image-map:target')) {
             $entity->setTarget($request->getValue('o-module-image-map:target'));
+        }
+
+        if ($this->shouldHydrate($request, 'o-module-image-map:alt')) {
+            $entity->setTarget($request->getValue('o-module-image-map:alt'));
         }
     }
 

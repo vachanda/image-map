@@ -101,8 +101,6 @@ function submitCoords(event) {
             alert("Result: " + JSON.stringify(results));
         },
     });
-
-    debugger;
 };
 
 function validatePayload(coordsData) {

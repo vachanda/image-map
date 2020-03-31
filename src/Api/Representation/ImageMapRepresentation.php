@@ -11,8 +11,9 @@ class ImageMapRepresentation extends AbstractEntityRepresentation {
 	public function getJsonLd() {
 	    return [
 	        'o:item' => $this->item()->getReference(),
-	        'o-module-mapping:cords' => $this->cords(),
+	        'o-module-mapping:coordinates' => $this->coordinates(),
 	        'o-module-mapping:target' => $this->target(),
+	        'o-module-mapping:alt' => $this->alt(),
 	    ];
 	}
 
@@ -21,12 +22,16 @@ class ImageMapRepresentation extends AbstractEntityRepresentation {
 	        ->getRepresentation($this->resource->getItem());
 	}
 
-	public function cords() {
-	    return $this->resource->getCords();
+	public function coordinates() {
+	    return $this->resource->getCoordinates();
 	}
 
 	public function target() {
 	    return $this->resource->getTarget();
+	}
+
+	public function alt() {
+	    return $this->resource->getAlt();
 	}
 }
 
