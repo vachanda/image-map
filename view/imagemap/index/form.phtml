@@ -3,45 +3,72 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/image-mapper.css', 'Ima
 $this->headScript()->appendFile($this->assetUrl('js/image-mapper.js', 'ImageMap'));
 $this->headScript()->appendFile("https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js");
 
-$mapping = null;
 $imageMaps = [];
 $itemMedia = [];
 if (isset($item)) {
 	$imageMaps = $this->api()
-	    ->search('image_map', ['item_id' => $item->id()])->getContent();
+	    ->search('image_maps', ['item_id' => $item->id()])->getContent();
     $itemMedia = $item->media();
 }
 ?>
 
-<div id="image-map" class="section row">
+<div class="image-map-alert">
+	<span class="closebtn" onclick="return closeAlertBox(event);">&times;</span>  
+</div>
+
+<fieldset id="image-map" class="section row">
 	<div id="image-map-container" class="col-md-12">
 		<div class="image-mapper" id="image-map-display">
-			<img class="image-mapper-img" src="<?php echo $this->escapeHtml($itemMedia[0]->originalUrl()); ?>" usemap="#image-mapper-map">
-			<!-- <map name="image-mapper-map">
-				<area alt="" title="" href="/ships/437" shape="rect" coords="601, 703, 627, 705" target="_blank" value="1040"class="{fillColor:'00ff00'}"/>
-			</map> -->
+			<img class="image-mapper-img" src="<?php echo $this->escapeHtml($itemMedia[0]->originalUrl()); ?>">
 			<svg class="image-mapper-svg" id="image-mapper-svg" style="width: 100%;"></svg>
+		</div>
+
+		<div id="image-map-form">
+			<?php foreach ($imageMaps as $mapIndex => $map): ?>
+				<?php $jsonPayload = $map->getJsonLd(); unset($jsonPayload['o:item']) ?>
+				<div id="<?php echo str_replace(', ', '-',$map->coordinates()); ?>">
+					<? foreach ($jsonPayload as $key => $value): ?>
+						<input type="hidden" name="<?php echo strtolower($map->getJsonLdType())."[".$mapIndex."][".$key."]"?>" value="<?php echo $value; ?>">
+					<?php endforeach; ?>
+					<input type="hidden" name="<?php echo strtolower($map->getJsonLdType())."[".$mapIndex."][o:id]";?>" value="<?php echo $map->id(); ?>">
+				</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12 image-mapper-data">
-			<h4>Current Selected Grid Points</h4>
+			<h4>Grid Points for the Current Map</h4>
 			<table class="table" id="image-mapper-table">
 				<thead>
 					<tr>
 						<th>Coordinates</th>
-						<th>Alt Text</th>
-						<th>Link</th>
+						<th>Target</th>
+						<th>Alt</th>
 					</tr>
 				</thead>
 				<tbody>
+					<?php foreach ($imageMaps as $mapIndex => $map): ?>
+						<?php $jsonPayload = $map->getJsonLd(); unset($jsonPayload['o:item']) ?>
+						<tr id="<?php echo str_replace(', ', '-',$map->coordinates()); ?>">
+							<? foreach ($jsonPayload as $key => $value): ?>
+								<td>
+									<input type="text" placeholder="<?php echo $key ?>" value="<?php echo $value ?>" class="input-disabled " readonly>
+								</td>
+							<?php endforeach; ?>	
+							<td>
+								<span aria_hidden='true' id='<?php echo str_replace(', ', '-',$map->coordinates()); ?>' onclick='deleteEntry(event);'>
+									<ion-icon name='close-circle-sharp'/>
+								</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>
 		<div class ="col-md-12 image-mapper-submit">
 			<span>
-				<input type="button" class="mapper-submit" value="Submit" onclick="return submitCoords(event);" />
+				<input type="button" class="mapper-submit" value="Populate" onclick="return populateCoordsData(event);" />
 			</span>
 		</div>
 	</div>
-</div>
+</fieldset>

@@ -9,7 +9,7 @@ use Omeka\Stdlib\ErrorStore;
 
 class ImageMapAdapter extends AbstractEntityAdapter {
     public function getResourceName() {
-        return 'image_map';
+        return 'image_maps';
     }
 
     public function getRepresentationClass() {
@@ -30,21 +30,20 @@ class ImageMapAdapter extends AbstractEntityAdapter {
             $entity->setItem($item);
         }
 
-        if ($this->shouldHydrate($request, 'o-module-image-map:coordinates')) {
-            $entity->setCords($request->getValue('o-module-image-map:coordinates'));
+        if ($this->shouldHydrate($request, 'o-module-mapping:coordinates')) {
+            $entity->setCoordinates($request->getValue('o-module-mapping:coordinates'));
         }
 
-        if ($this->shouldHydrate($request, 'o-module-image-map:target')) {
-            $entity->setTarget($request->getValue('o-module-image-map:target'));
+        if ($this->shouldHydrate($request, 'o-module-mapping:target')) {
+            $entity->setTarget($request->getValue('o-module-mapping:target'));
         }
 
-        if ($this->shouldHydrate($request, 'o-module-image-map:alt')) {
-            $entity->setTarget($request->getValue('o-module-image-map:alt'));
+        if ($this->shouldHydrate($request, 'o-module-mapping:alt')) {
+            $entity->setAlt($request->getValue('o-module-mapping:alt'));
         }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore) {
-        
     }
 
     public function buildQuery(QueryBuilder $qb, array $query) {

@@ -12,7 +12,7 @@ namespace ImageMap;
 return [
     'api_adapters' => [
         'invokables' => [
-            'image_map' => Api\Adapter\ImageMapAdapter::class,
+            'image_maps' => Api\Adapter\ImageMapAdapter::class,
         ],
     ],
     'entity_manager' => [
@@ -26,31 +26,6 @@ return [
     'view_manager' => [
         'template_path_stack' => [
             dirname(__DIR__) . '/view',
-        ],
-    ],
-    'controllers' => [
-        'invokables' => [
-            'ImageMap\Controller\Admin\Edit' => Controller\Admin\EditController::class,
-        ],
-    ],
-    'router' => [
-        'routes' => [
-            'admin' => [
-                'child_routes' => [
-                    'image-map-add' => [
-                        'type' => 'Literal',
-                        'options' => [
-                            'route' => '/api/image-map',
-                            'verb' => 'post',
-                            'defaults' => [
-                                '__NAMESPACE__' => 'ImageMap\Controller\Admin',
-                                'controller' => 'edit',
-                                'action' => 'create',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
         ],
     ],
 ];

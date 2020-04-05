@@ -24,17 +24,17 @@ class ImageMap extends AbstractEntity {
     protected $item;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(nullable=false)
      */
     protected $coordinates;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(nullable=false)
      */
     protected $target;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(nullable=false)
      */
     protected $alt;
 
